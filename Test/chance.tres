@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Chance" load_steps=12 format=3 uid="uid://k7qpna5k5c25"]
+
+[ext_resource type="Script" uid="uid://d2qe67mnv1f5i" path="res://Chance/ChanceModifier.cs" id="1_yo0yo"]
+[ext_resource type="Script" uid="uid://3kvku4nahqkg" path="res://Chance/ConditionNode/BaseClass/ConditionNode.cs" id="2_an005"]
+[ext_resource type="Resource" uid="uid://cqwjxca8g7n4" path="res://Test/logic_tree_1.tres" id="3_n4b6u"]
+[ext_resource type="Resource" uid="uid://br0nl4fqps0qs" path="res://Test/logic_tree_2.tres" id="4_iiywf"]
+[ext_resource type="Resource" uid="uid://c6omsa4u5iarv" path="res://Test/test_leaf_node.tres" id="5_d6w3p"]
+[ext_resource type="Script" uid="uid://k4weh4sm4nym" path="res://Chance/ConditionNode/LogicalAndNode.cs" id="6_0muwe"]
+[ext_resource type="Script" uid="uid://du4srqs4fuu8s" path="res://Chance/Chance.cs" id="7_fkw6q"]
+
+[sub_resource type="Resource" id="Resource_yo0yo"]
+script = ExtResource("1_yo0yo")
+Factor = 1.0
+LogicTree = ExtResource("3_n4b6u")
+metadata/_custom_type_script = "uid://d2qe67mnv1f5i"
+
+[sub_resource type="Resource" id="Resource_an005"]
+script = ExtResource("1_yo0yo")
+Factor = 1.0
+LogicTree = ExtResource("4_iiywf")
+metadata/_custom_type_script = "uid://d2qe67mnv1f5i"
+
+[sub_resource type="Resource" id="Resource_n4b6u"]
+script = ExtResource("6_0muwe")
+Children = Array[ExtResource("2_an005")]([ExtResource("5_d6w3p")])
+
+[sub_resource type="Resource" id="Resource_iiywf"]
+script = ExtResource("1_yo0yo")
+Factor = 1.0
+LogicTree = SubResource("Resource_n4b6u")
+metadata/_custom_type_script = "uid://d2qe67mnv1f5i"
+
+[resource]
+script = ExtResource("7_fkw6q")
+Factor = 1.0
+Modifiers = Array[ExtResource("1_yo0yo")]([SubResource("Resource_yo0yo"), SubResource("Resource_an005"), SubResource("Resource_iiywf")])
+metadata/_custom_type_script = "uid://du4srqs4fuu8s"
