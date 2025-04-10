@@ -440,14 +440,14 @@ using Newtonsoft.Json.Linq;
 [GlobalClass]
 public partial class CustomConditionNode : LeafConditionNode<ChanceNumberConditionType, int>, IConditionNodeDeserializer<CustomConditionNode>
 {
-    [Export]
-    public override ChanceNumberConditionType ConditionName { get; set; }
-    [Export]
-    public override int Value { get; set; }
+	[Export]
+	public override ChanceNumberConditionType ConditionName { get; set; }
+	[Export]
+	public override int Value { get; set; }
 
-    // 当有构造函数重载时，必须要有一个无参构造函数！
-    // 反序列化用的构造函数
-    public CustomConditionNode(ChanceNumberConditionType conditionName, int value)
+	// 当有构造函数重载时，必须要有一个无参构造函数！
+	// 反序列化用的构造函数
+	public CustomConditionNode(ChanceNumberConditionType conditionName, int value)
 	{
 		ConditionName = conditionName;
 		Value = value;
@@ -457,7 +457,7 @@ public partial class CustomConditionNode : LeafConditionNode<ChanceNumberConditi
 	public override bool Evaluate(System.Collections.Generic.Dictionary<string, object> context)
 	{
 		// 这里就自己写实现吧，只要条件匹配的情况下返回一个true就行
-        return true;
+		return true;
 	}
 
 	// 实现将节点序列化成 Json属性的逻辑
@@ -495,14 +495,14 @@ public partial class CustomConditionNode : LeafConditionNode<ChanceNumberConditi
 		return ConditionNodeDeserializer.FromJsonDefault<CustomConditionNode>(jsonString);
 	}
 
-    // 推荐使用 RegisterDeserializer 注册带有明确标识符的条件节点（无论是否为叶子节点）
-    // 如果使用 RegisterValueTypeDeserializer 注册相同类型的节点，后者会覆盖前者！务必注意不要冲突！
+	// 推荐使用 RegisterDeserializer 注册带有明确标识符的条件节点（无论是否为叶子节点）
+	// 如果使用 RegisterValueTypeDeserializer 注册相同类型的节点，后者会覆盖前者！务必注意不要冲突！
 
-    // 示例1：使用显式标识符注册，更安全可控，叶子节点如果没有重写序列化逻辑或使用WithKey的默认实现，则使用标识符注册时必须要使用蛇形命名的枚举名作为键
-    // 由于同一个叶子节点实例的`ConditionName`属性值可能都不相同，所以这个注册方式必须放在节点的构造函数中，除非重写了节点的序列化逻辑，否则可能导致反序列化失败！
-    // 如果节点注册时，存在同样的键，则会顶替掉先前注册的反序列化器，务必注意！
-    // 由于在构造函数中注册是运行时注册，所以这样极有可能出现运行时键被顶替的情况！
-    public CustomConditionNode()
+	// 示例1：使用显式标识符注册，更安全可控，叶子节点如果没有重写序列化逻辑或使用WithKey的默认实现，则使用标识符注册时必须要使用蛇形命名的枚举名作为键
+	// 由于同一个叶子节点实例的`ConditionName`属性值可能都不相同，所以这个注册方式必须放在节点的构造函数中，除非重写了节点的序列化逻辑，否则可能导致反序列化失败！
+	// 如果节点注册时，存在同样的键，则会顶替掉先前注册的反序列化器，务必注意！
+	// 由于在构造函数中注册是运行时注册，所以这样极有可能出现运行时键被顶替的情况！
+	public CustomConditionNode()
 	{
 		ConditionNodeDeserializer.RegisterDeserializer(ConditionName.ToSnakeCase(), FromJson);
 		// 如序列化使用了自定义键时，则这里的键名必须和WithKey方法或自定义设置的键名相同
