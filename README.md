@@ -476,8 +476,8 @@ public partial class CustomConditionNode : LeafConditionNode<ChanceNumberConditi
 	{
 		// 如果没有特殊需求可以直接使用泛型基类提供的反序列化方法
 		return Deserialize(
-		value, 
-		(con, val) => new CustomConditionNode(con, val)
+			value, 
+			(con, val) => new CustomConditionNode(con, val)
 		);
 		// 如果序列化逻辑没有使用默认实现，则这里也需要手动实现反序列化逻辑
 		// 如果在ToJson方法使用了另一个默认实现，这里也需要更改
