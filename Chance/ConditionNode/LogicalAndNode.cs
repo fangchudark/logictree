@@ -4,6 +4,8 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using System;
 
+using static ConditionNodeDeserializer;
+
 /// <summary>
 /// 根节点/容器节点<br/>
 /// 逻辑与条件节点（所有子条件必须全部满足）
@@ -93,4 +95,8 @@ public partial class LogicalAndNode : ContainerConditionNode, IConditionNodeDese
         return SerializeChildren();
     }
 
+    public static LogicalAndNode FromJson(string jsonString)
+    {
+        return FromJsonDefault<LogicalAndNode>(jsonString);
+    }
 }

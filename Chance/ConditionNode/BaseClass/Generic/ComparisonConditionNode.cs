@@ -73,13 +73,7 @@ public abstract partial class ComparisonConditionNode<[MustBeVariant] TEnum, [Mu
     /// <returns>格式示例：{"more_than": {"player_level": 5}}</returns>
     protected override JProperty ToJProperty(TEnum conditionName, TValue threshold)
     {
-        var obj = new JObject
-        {
-            [conditionName.ToSnakeCase()] = JToken.FromObject(threshold)    // 蛇形命名键值对
-        };
-        
-        return new JProperty(Operator, obj);   // 包装为指定类型的属性
-        
+        return ToJPropertyWithKey(Operator, conditionName, threshold);   // 包装为指定类型的属性   
     }
 
     /// <summary>
@@ -100,15 +94,15 @@ public abstract partial class ComparisonConditionNode<[MustBeVariant] TEnum, [Mu
         where T : ComparisonConditionNode<TEnum, TValue>
     {
         // 验证必须为JProperty类型
-        var compObj = value as JProperty ?? throw new ArgumentException("Comparison must be an property.");
+        var compObj = value as JProperty ?? throw new ArgumentException("value must be an property.");
         
         // 验证容器类型为对象或数组
         if (compObj.Value.Type is not (JTokenType.Object or JTokenType.Array))
-            throw new ArgumentException("Comparison container must be is an object or array.");
+            throw new ArgumentException($"Expected value container to be an object or array, but got {compObj.Value.Type}.");
 
         // 确保仅包含一个属性
         if (compObj.Values().Count() != 1)
-            throw new ArgumentException("Comparison must have exactly one property.");
+            throw new ArgumentException($"Expected object to have exactly one condition field, but got {compObj.Values().Count()}.");
         
         // 获取嵌套的属性
         var prop = compObj.Values().First() as JProperty ?? throw new ArgumentException("Comparison must have exactly one property.");

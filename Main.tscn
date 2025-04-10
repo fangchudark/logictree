@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqryrowmecr0j"]
+[gd_scene load_steps=2 format=3 uid="uid://dqryrowmecr0j"]
 
 [ext_resource type="Script" uid="uid://84dkp4wxh3p4" path="res://Test/Main.cs" id="1_glv2v"]
-[ext_resource type="JSON" path="res://Test/JSON.json" id="3_r0du0"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -11,4 +10,3 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_glv2v")
-json = ExtResource("3_r0du0")

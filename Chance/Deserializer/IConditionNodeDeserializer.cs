@@ -1,4 +1,6 @@
 
+using System;
+using Godot;
 using Newtonsoft.Json.Linq;
 
 /// <summary>
@@ -15,4 +17,11 @@ public interface IConditionNodeDeserializer <TSelf> where TSelf : IConditionNode
     /// <returns>新实例化的节点</returns>
     static abstract TSelf FromJson(JToken value);
 
+    /// <summary>
+    /// 从JSON字符串创建条件节点 <br/>
+    /// (在静态类中提供默认实现（<see cref="ConditionNodeDeserializer.FromJsonDefault"/>），调用<see cref="FromJson(JToken)"/>并转化为字符串)
+    /// </summary>
+    /// <param name="jsonString">JSON字符串</param>
+    /// <returns>新实例化的节点</returns>
+    static abstract TSelf FromJson(string jsonString);
 }

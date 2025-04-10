@@ -1,6 +1,8 @@
 using Godot;
 using Newtonsoft.Json.Linq;
 
+using static ConditionNodeDeserializer;
+
 /// <summary>
 /// 叶子节点<br/>
 /// 大于比较条件节点（当上下文值大于阈值时满足条件）
@@ -84,5 +86,10 @@ public partial class MoreThanNode : ComparisonConditionNode<ChanceNumberConditio
     public override JProperty ToJson()
     {
         return ToJProperty(ConditionName, Value); // 使用基类辅助方法
+    }
+
+    public static MoreThanNode FromJson(string jsonString)
+    {
+        return FromJsonDefault<MoreThanNode>(jsonString);
     }
 }

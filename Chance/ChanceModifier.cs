@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
@@ -123,6 +124,23 @@ public partial class ChanceModifier : Resource
     }
 
     /// <summary>
+    /// 序列化为JSON字符串
+    /// </summary>
+    /// <returns>包含修正因子和条件树的JSON字符串</returns>
+    public string ToJsonString()
+    {
+        try
+        {
+            return ToJson().ToString();
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr("Failed to parse instance data:", e);
+            return null;
+        }
+    }
+
+    /// <summary>
     /// 从JSON创建修正器实例
     /// </summary>
     /// <param name="obj">包含factor和条件树的JObject</param>
@@ -139,10 +157,28 @@ public partial class ChanceModifier : Resource
         foreach (var prop in obj.Properties())
         {
             // 使用反序列化工具解析每个条件属性
-            var node = ConditionNodeDeserializer.DeserializeNode (prop.Name, prop);
+            var node = ConditionNodeDeserializer.DeserializeNode(prop.Name, prop);
             conditions.Add(node);
         }
         modifier.LogicTree = new LogicalAndNode() { Children = conditions };
         return modifier;
+    }
+
+    /// <summary>
+    /// 从JSON字符串创建修正器实例
+    /// </summary>
+    /// <param name="obj">包含factor和条件树的Json字符串</param>
+    /// <returns>新创建的ChanceModifier实例</returns>
+    public static ChanceModifier FromJson(string jsonString)
+    {
+        try
+        {
+            return FromJson(JObject.Parse(jsonString));
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr("Failed to parse json data:", e);
+            return null;
+        }
     }
 }

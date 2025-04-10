@@ -4,6 +4,8 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using System;
 
+using static ConditionNodeDeserializer;
+
 /// <summary>
 /// 容器节点<br/>
 /// 逻辑非条件节点（当所有子条件都不满足时返回true）
@@ -90,4 +92,8 @@ public partial class LogicalNotNode : ContainerConditionNode, IConditionNodeDese
         return SerializeChildren();
     }
 
+    public static LogicalNotNode FromJson(string jsonString)
+    {
+        return FromJsonDefault<LogicalNotNode>(jsonString);
+    }
 }

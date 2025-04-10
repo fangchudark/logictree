@@ -25,7 +25,6 @@ public partial class Main : Control
     {
         chance ??= ResourceLoader.Load<Chance>("res://Test/chance.tres");
         json ??= ResourceLoader.Load<Json>("res://Test/JSON.json");
-        var testNodeJson = ResourceLoader.Load<Json>("res://Test/TestNodeJSON.json");
 
         TestAndNode(context);
         TestOrNode(context);
@@ -34,7 +33,6 @@ public partial class Main : Control
         TestLessThanNode(context);
         TestNestingNode(context);
         TestSerialization(chance);
-        TestDeserialization(testNodeJson.Data.ToString());
         TestDeserialization(json.Data.ToString());
     }
 

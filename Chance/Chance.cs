@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -153,6 +154,24 @@ public partial class Chance : Resource
     }
 
     /// <summary>
+    /// 从JSON字符串创建Chance实例（静态工厂方法）
+    /// </summary>
+    /// <param name="jsonString">包含序列化数据的Josn字符串</param>
+    /// <returns>新创建的Chance实例</returns>
+    public static Chance FromJson(string jsonString)
+    {
+        try
+        {
+            return FromJson(JObject.Parse(jsonString));
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr("Failed to parse json data:", e);
+            return null;
+        }
+    }
+
+    /// <summary>
     /// 序列化为JSON对象
     /// </summary>
     /// <returns>包含factor和modifiers数组的JObject</returns>
@@ -163,5 +182,22 @@ public partial class Chance : Resource
             ["factor"] = Factor,
             ["modifiers"] = new JArray(Modifiers.Select(x => x.ToJson())) // 递归序列化修正器
         };
+    }
+
+    /// <summary>
+    /// 序列化为JSON字符串
+    /// </summary>
+    /// <returns>包含factor和modifiers数组的Json字符串</returns>
+    public string ToJsonString()
+    {
+        try
+        {
+            return ToJson().ToString();
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr("Failed to parse instance data:", e);
+            return null;
+        }
     }
 }

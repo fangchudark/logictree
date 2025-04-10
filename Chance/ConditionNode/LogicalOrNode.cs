@@ -4,6 +4,8 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using System;
 
+using static ConditionNodeDeserializer;
+
 /// <summary>
 /// 容器节点<br/>
 /// 逻辑或条件节点（当任意子条件满足时返回true）
@@ -88,5 +90,10 @@ public partial class LogicalOrNode : ContainerConditionNode, IConditionNodeDeser
     public static LogicalOrNode FromJson(JToken value)
     {
         return Deserialize(value, "or", () => new LogicalOrNode());
+    }
+
+    public static LogicalOrNode FromJson(string jsonString)
+    {
+        return FromJsonDefault<LogicalOrNode>(jsonString);
     }
 }

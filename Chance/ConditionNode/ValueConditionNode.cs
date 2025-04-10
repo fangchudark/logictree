@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json.Linq;
 
+using static ConditionNodeDeserializer;
+
 /// <summary>
 /// 叶子节点<br/>
 /// 数值等于条件节点（当上下文值与期望值近似相等时满足）
@@ -112,5 +114,10 @@ public partial class ValueConditionNode : LeafConditionNode<ChanceNumberConditio
     public override JProperty ToJson()
     {
         return ToJProperty(ConditionName, Value);
+    }
+
+    public static ValueConditionNode FromJson(string jsonString)
+    {
+        return FromJsonDefault<ValueConditionNode>(jsonString);
     }
 }

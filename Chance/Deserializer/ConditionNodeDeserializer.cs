@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Godot;
 using Newtonsoft.Json.Linq;
 
 /// <summary>
@@ -21,7 +23,7 @@ public static class ConditionNodeDeserializer
         RegisterValueTypeDeserializer(JTokenType.Boolean, BoolConditionNode.FromJson);
         RegisterValueTypeDeserializer(JTokenType.Integer, ValueConditionNode.FromJson);
         RegisterValueTypeDeserializer(JTokenType.Float, ValueConditionNode.FromJson);
-}
+    }
 
     /// <summary>
     /// 反序列化JSON条件节点
@@ -81,7 +83,7 @@ public static class ConditionNodeDeserializer
     {
         _deserializers.Clear();
         _valueTypeDeserializers.Clear();
-}
+    }
 
 
     /// <summary>
@@ -96,10 +98,31 @@ public static class ConditionNodeDeserializer
 
         foreach (var prop in obj.Properties())
         {
-            var child = DeserializeNode (prop.Name, prop); // 递归解析子条件
+            var child = DeserializeNode(prop.Name, prop); // 递归解析子条件
             if (child != null)
                 children.Add(child); // 将有效子条件添加到集合中
         }
     }
 
+    /// <summary>
+    /// <see cref="IConditionNodeDeserializer{T}.FromJson(string)"/>的默认实现，包含异常处理，调用<see cref="IConditionNodeDeserializer{T}.FromJson(JToken)"/>并转化为字符串
+    /// </summary>
+    /// <typeparam name="T">继承了反序列化接口的节点</typeparam>
+    /// <param name="jsonString">json字符串</param>
+    /// <returns>新实例化的节点，失败返回 default</returns>
+    public static T FromJsonDefault<T>(string jsonString)
+        where T : IConditionNodeDeserializer<T>
+    {
+        try
+        {
+            var jobject = JObject.Parse(jsonString);
+            var prop = jobject.Properties().First(); // 拿出第一个 property
+            return T.FromJson(prop);
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr("Failed to parse json:", e);
+            return default;
+        }
+    }
 }

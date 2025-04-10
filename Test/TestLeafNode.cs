@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json.Linq;
 
+using static ConditionNodeDeserializer;
+
 /// <summary>
 /// 测试用例节点
 /// </summary>
@@ -14,7 +16,7 @@ public partial class TestLeafNode : LeafConditionNode<ChanceNumberConditionType,
     public override int Value { get ; set ; }
     public TestLeafNode()
     {
-        ConditionNodeDeserializer.RegisterDeserializer(ConditionName.ToSnakeCase(), FromJson);
+       RegisterDeserializer("test", FromJson);
     }
 
     public TestLeafNode(ChanceNumberConditionType conditionName, int value)
@@ -25,7 +27,7 @@ public partial class TestLeafNode : LeafConditionNode<ChanceNumberConditionType,
 
     public static TestLeafNode FromJson(JToken value)
     {
-        return Deserialize(
+        return DeserializeWithKey(
             value, 
             (con, val) => new TestLeafNode(con, val)
         );
@@ -38,6 +40,11 @@ public partial class TestLeafNode : LeafConditionNode<ChanceNumberConditionType,
 
     public override JProperty ToJson()
     {
-        return ToJProperty(ConditionName, Value);
+        return ToJPropertyWithKey("test", ConditionName, Value);
+    }
+
+    public static TestLeafNode FromJson(string jsonString)
+    {
+        return FromJsonDefault<TestLeafNode>(jsonString);
     }
 }

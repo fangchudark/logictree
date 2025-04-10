@@ -75,6 +75,23 @@ public abstract partial class ConditionNode : Resource
     /// <returns>包含有效属性的JsonToken</returns>
     public abstract JProperty ToJson();
 
+    /// <summary>
+    /// 序列化为Json字符串（提供默认实现，调用<see cref="ToJson"/>包装为 JObject 并转化为字符串），可在子类重写
+    /// </summary>
+    /// <returns>序列化后的Json字符串，失败时返回空字符串</returns>
+    public virtual string ToJsonString()
+    {
+        try
+        {
+            return new JObject(ToJson()).ToString();
+        }
+        catch (Exception e)
+        {
+            GD.PrintErr("Failed to parse instance data:", e);
+            return string.Empty;
+        }
+    }
+
 
     /// <summary>
     /// 获取条件类型的蛇形命名键

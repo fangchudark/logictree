@@ -2,6 +2,8 @@ using Godot;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
+using static ConditionNodeDeserializer;
+
 /// <summary>
 /// 叶子节点<br/>
 /// 布尔条件节点
@@ -95,5 +97,10 @@ public partial class BoolConditionNode : LeafConditionNode<ChanceBoolConditionTy
     public override JProperty ToJson()
     {
         return ToJProperty(ConditionName, Value);
+    }
+
+    public static BoolConditionNode FromJson(string jsonString)
+    {
+        return FromJsonDefault<BoolConditionNode>(jsonString);
     }
 }
