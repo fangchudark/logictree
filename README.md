@@ -438,6 +438,14 @@ GD.Print($"修正因子: {finalFactor}");
 [GlobalClass]
 public class CustomConditionNode : LeafConditionNode<ChanceNumberConditionType, int>, IConditionNodeDeserializer<CustomConditionNode>
 {
+	// 当有构造函数重载时，必须要有一个无参构造函数！
+	// 反序列化用的构造函数
+	public CustomConditionNode(ChanceNumberConditionType conditionName, int value)
+	{
+		ConditionName = conditionName;
+		Value = value;
+	}
+
 	// 实现评估逻辑
 	public override bool Evaluate(System.Collections.Generic.Dictionary<string, object> context)
 	{
