@@ -441,57 +441,57 @@ public class CustomConditionNode : LeafConditionNode<ChanceNumberConditionType, 
 	// 实现评估逻辑
 	public override bool Evaluate(System.Collections.Generic.Dictionary<string, object> context)
 	{
-	  // 这里就自己写实现吧，只要条件匹配的情况下返回一个true就行
+		// 这里就自己写实现吧，只要条件匹配的情况下返回一个true就行
 	}
 
-  // 实现将节点序列化成 Json属性的逻辑
-  public JProperty ToJson()
-  {
-    // 如果没有特殊需求可以直接使用泛型基类提供的序列化方法
-    return ToJProperty(ConditionName, Value);
-    // 如果要将叶子节点的反序列化器带标识符注册到反序列器注册表中，推荐使用另一个默认实现，以防键名重复顶替掉注册反序列器
-    // 将会序列化为如下结构 : {"key":{"condition_name":value}}
-    // return ToJPropertyWithKey("key", ConditionName, Value)
+	// 实现将节点序列化成 Json属性的逻辑
+	public JProperty ToJson()
+	{
+		// 如果没有特殊需求可以直接使用泛型基类提供的序列化方法
+		return ToJProperty(ConditionName, Value);
+		// 如果要将叶子节点的反序列化器带标识符注册到反序列器注册表中，推荐使用另一个默认实现，以防键名重复顶替掉注册反序列器
+		// 将会序列化为如下结构 : {"key":{"condition_name":value}}
+		// return ToJPropertyWithKey("key", ConditionName, Value)
 
-  }
+	}
 
-  // 实现 JSON 还原成节点的逻辑
-  public static CustomConditionNode FromJson(JToken value)
-  {
-    // 如果没有特殊需求可以直接使用泛型基类提供的反序列化方法
-    return Deserialize(
-      value, 
-      (con, val) => new CustomConditionNode(con, val)
-    );
-    // 如果序列化逻辑没有使用默认实现，则这里也需要手动实现反序列化逻辑
-	// 如果在ToJson方法使用了另一个默认实现，这里也需要更改
-	// return DeserializeWithKey(
-    //   value, 
-    //   (con, val) => new CustomConditionNode(con, val)
-    // );
-  }
+	// 实现 JSON 还原成节点的逻辑
+	public static CustomConditionNode FromJson(JToken value)
+	{
+		// 如果没有特殊需求可以直接使用泛型基类提供的反序列化方法
+		return Deserialize(
+		value, 
+		(con, val) => new CustomConditionNode(con, val)
+		);
+		// 如果序列化逻辑没有使用默认实现，则这里也需要手动实现反序列化逻辑
+		// 如果在ToJson方法使用了另一个默认实现，这里也需要更改
+		// return DeserializeWithKey(
+		//   value, 
+		//   (con, val) => new CustomConditionNode(con, val)
+		// );
+	}
 
 
-  // 如果没有特殊需求可以直接使用反序列化静态类提供的默认实现
-  // 这个方法将会提供给GDScript使用，手动实现时务必进行异常处理
-  public static CustomConditionNode FromJson(string jsonString)
-  {
-    return ConditionNodeDeserializer.FromJsonDefault<CustomConditionNode>(jsonString);
-  }
+	// 如果没有特殊需求可以直接使用反序列化静态类提供的默认实现
+	// 这个方法将会提供给GDScript使用，手动实现时务必进行异常处理
+	public static CustomConditionNode FromJson(string jsonString)
+	{
+		return ConditionNodeDeserializer.FromJsonDefault<CustomConditionNode>(jsonString);
+	}
 
-  // 推荐使用 RegisterDeserializer 注册带有明确标识符的条件节点（无论是否为叶子节点）
-  // 如果使用 RegisterValueTypeDeserializer 注册相同类型的节点，后者会覆盖前者！务必注意不要冲突！
+	// 推荐使用 RegisterDeserializer 注册带有明确标识符的条件节点（无论是否为叶子节点）
+	// 如果使用 RegisterValueTypeDeserializer 注册相同类型的节点，后者会覆盖前者！务必注意不要冲突！
 
-  // 示例1：使用显式标识符注册，更安全可控，叶子节点如果没有重写序列化逻辑或使用WithKey的默认实现，则使用标识符注册时必须要使用蛇形命名的枚举名作为键
-  // 由于同一个叶子节点实例的`ConditionName`属性值可能都不相同，所以这个注册方式必须放在节点的构造函数中，除非重写了节点的序列化逻辑，否则可能导致反序列化失败！
-  // 如果节点注册时，存在同样的键，则会顶替掉先前注册的反序列化器，务必注意！
-  // 由于在构造函数中注册是运行时注册，所以这样极有可能出现运行时键被顶替的情况！
-  public CustomConditionNode()
-  {
-    ConditionNodeDeserializer.RegisterDeserializer(ConditionName.ToSnakeCase(), CustomConditionNode.FromJson);
-	// 如序列化使用了自定义键时，则这里的键名必须和WithKey方法或自定义设置的键名相同
-    // ConditionNodeDeserializer.RegisterDeserializer("key", CustomConditionNode.FromJson);
-  }
+	// 示例1：使用显式标识符注册，更安全可控，叶子节点如果没有重写序列化逻辑或使用WithKey的默认实现，则使用标识符注册时必须要使用蛇形命名的枚举名作为键
+	// 由于同一个叶子节点实例的`ConditionName`属性值可能都不相同，所以这个注册方式必须放在节点的构造函数中，除非重写了节点的序列化逻辑，否则可能导致反序列化失败！
+	// 如果节点注册时，存在同样的键，则会顶替掉先前注册的反序列化器，务必注意！
+	// 由于在构造函数中注册是运行时注册，所以这样极有可能出现运行时键被顶替的情况！
+	public CustomConditionNode()
+	{
+		ConditionNodeDeserializer.RegisterDeserializer(ConditionName.ToSnakeCase(), CustomConditionNode.FromJson);
+		// 如序列化使用了自定义键时，则这里的键名必须和WithKey方法或自定义设置的键名相同
+		// ConditionNodeDeserializer.RegisterDeserializer("key", CustomConditionNode.FromJson);
+	}
 
 }
 
@@ -504,10 +504,10 @@ public class CustomConditionNode : LeafConditionNode<ChanceNumberConditionType, 
 // ConditionNodeDeserializer.cs
 static ConditionNodeDeserializer()
 {
-  // ...
-  ConditionNodeDeserializer.RegisterValueTypeDeserializer(JTokenType.Integer, CustomConditionNode.FromJson);
+	// ...
+	ConditionNodeDeserializer.RegisterValueTypeDeserializer(JTokenType.Integer, CustomConditionNode.FromJson);
 	// 序列化使用了自定义键时，拓展的节点也就可以在这里注册，其键名必须和WithKey方法或自定义设置的键名相同
-    // ConditionNodeDeserializer.RegisterDeserializer("key", CustomConditionNode.FromJson);
+	// ConditionNodeDeserializer.RegisterDeserializer("key", CustomConditionNode.FromJson);
 }
 
 ```
@@ -684,9 +684,9 @@ static ConditionNodeDeserializer()
 
 ---
 
-#### 我可以使用GDScript拓展的逻辑树节点吗？
+#### 我可以使用GDScript来拓展逻辑树节点吗？
 
-> *很遗憾，受限于GDScript无法继承自C#类，故无法使用GDScript来拓展的逻辑树节点([参阅C#创建逻辑树节点示例代码](#扩展开发))*
+> *很遗憾，受限于GDScript无法继承自C#类，故无法使用GDScript来拓展的逻辑树节点([参阅C#拓展逻辑树节点示例代码](#扩展开发))*
 
 ## 许可证
 
