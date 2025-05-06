@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="TestLeafNode" load_steps=2 format=3 uid="uid://c6omsa4u5iarv"]
-
-[ext_resource type="Script" uid="uid://b5seadurq73hn" path="res://Test/TestLeafNode.cs" id="1_g5ko2"]
-
-[resource]
-script = ExtResource("1_g5ko2")
-ConditionName = 0
-Value = 0
-metadata/_custom_type_script = "uid://b5seadurq73hn"

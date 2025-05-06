@@ -1,9 +1,0 @@
-{
-	"factor": 1.0,
-	"modifiers": [
-		{
-			"factor": 2.0,
-			"condition_1": 1.0
-		}
-	]
-}

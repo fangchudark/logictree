@@ -1,19 +1,25 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicTree", "LogicTree.csproj", "{1FF67721-0482-408E-BF14-925713D337DE}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicTree", "LogicTree.csproj", "{2E10FB76-8C8B-4B5A-819F-1844841EC3C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1FF67721-0482-408E-BF14-925713D337DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1FF67721-0482-408E-BF14-925713D337DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1FF67721-0482-408E-BF14-925713D337DE}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{1FF67721-0482-408E-BF14-925713D337DE}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{1FF67721-0482-408E-BF14-925713D337DE}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{1FF67721-0482-408E-BF14-925713D337DE}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{2E10FB76-8C8B-4B5A-819F-1844841EC3C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E10FB76-8C8B-4B5A-819F-1844841EC3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E10FB76-8C8B-4B5A-819F-1844841EC3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E10FB76-8C8B-4B5A-819F-1844841EC3C9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0BC8EA75-3B49-4BE3-B5E1-240F690CDA67}
 	EndGlobalSection
 EndGlobal
