@@ -4,6 +4,8 @@
 
 ![Godot Version](https://img.shields.io/badge/Godot-4.4%2B-%23478cbf)
 
+*无Godot环境依赖分支：[LogicTreeWithoutGodot](https://github.com/fangchudark/logictree/tree/LogicTreeWithoutGodot)*
+
 ## 特性
 
 - 🧩 模块化条件节点
