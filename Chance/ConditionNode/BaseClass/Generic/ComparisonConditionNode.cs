@@ -117,4 +117,20 @@ public abstract partial class ComparisonConditionNode<[MustBeVariant] TEnum, [Mu
 
         return createNode(conditionName, prop.Value.Value<TValue>());
     }
+    /// <summary>
+    /// 反序列化包含键的条件节点。
+    /// </summary>
+    /// <typeparam name="T">继承自 <see cref="LeafConditionNode{TValue}"/> 的具体类型。</typeparam>
+    /// <param name="value">JSON 输入数据。</param>
+    /// <param name="createNode">节点构造工厂方法。</param>
+    /// <returns>反序列化后的条件节点。</returns>
+    /// <exception cref="InvalidOperationException">始终抛出此异常，提示使用 <see cref="Deserialize{T}(JToken, Func{string, TValue, T})"/> 方法。</exception>
+    [Obsolete("use method Deserialize<T> to deserialize comparison node!")]
+    protected static new T DeserializeWithKey<T>(
+        JToken value,
+        Func<TEnum, TValue, T> createNode)
+        where T : LeafConditionNode<TEnum, TValue>
+    {
+        throw new InvalidOperationException("use method Deserialize<T> to deserialize comparison node!");
+    }
 }
