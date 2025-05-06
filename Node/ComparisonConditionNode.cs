@@ -1,6 +1,8 @@
 
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LogicTree
 {
@@ -103,7 +105,9 @@ namespace LogicTree
             if (prop.Value.Type is not (JTokenType.Integer or JTokenType.Float))
                 throw new ArgumentException("Comparison value must be a number.");
 
+#pragma warning disable CS8604 // 引用类型参数可能为 null。
             return createNode(prop.Name, prop.Value.Value<TValue>());
+#pragma warning restore CS8604 // 引用类型参数可能为 null。
         }
 
         /// <summary>

@@ -1,37 +1,44 @@
+using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace LogicTree
 {
 
     /// <summary>
-    /// È¨ÖØĞŞÕıÆ÷
+    /// æƒé‡ä¿®æ­£å™¨
     /// </summary>
     public class ChanceModifier
     {
-
         /// <summary>
-        /// »ú»áĞŞÕı´øÀ´µÄÒò×ÓĞŞÕıÖµ
+        /// æœºä¼šä¿®æ­£å¸¦æ¥çš„å› å­ä¿®æ­£å€¼
         /// </summary>    
         public float Factor { get; set; } = 1f;
 
         /// <summary>
-        /// ĞŞÕıÌõ¼şÂß¼­Ê÷£¨¸ù½ÚµãÊ¹ÓÃÂß¼­Óë½Úµã£©
+        /// ä¿®æ­£æ¡ä»¶é€»è¾‘æ ‘ï¼ˆæ ¹èŠ‚ç‚¹ä½¿ç”¨é€»è¾‘ä¸èŠ‚ç‚¹ï¼‰
         /// </summary>
         public LogicalAndNode LogicTree { get; set; } = [];
 
         /// <summary>
-        /// ÎŞ²Î¹¹Ôìº¯Êı
+        /// æ— å‚æ„é€ å‡½æ•°
         /// </summary>
-        public ChanceModifier()
+        public ChanceModifier() { }
+        /// <summary>
+        /// åˆå§‹åŒ–ä¿®æ­£å› å­
+        /// </summary>
+        /// <param name="factor">ä¿®æ­£ä¹˜æ•°</param>
+        public ChanceModifier(float factor)
         {
-
+            Factor = factor;
+            LogicTree = [];
         }
 
         /// <summary>
-        /// ³õÊ¼»¯ĞŞÕıÒò×ÓºÍÂß¼­Ìõ¼ş
+        /// åˆå§‹åŒ–ä¿®æ­£å› å­å’Œé€»è¾‘æ¡ä»¶
         /// </summary>
-        /// <param name="factor">ĞŞÕı³ËÊı</param>
-        /// <param name="logicTree">ĞŞÕıÌõ¼şÂß¼­Ê÷£¨¸ù½ÚµãÊ¹ÓÃÂß¼­Óë½Úµã£©</param>
+        /// <param name="factor">ä¿®æ­£ä¹˜æ•°</param>
+        /// <param name="logicTree">ä¿®æ­£æ¡ä»¶é€»è¾‘æ ‘ï¼ˆæ ¹èŠ‚ç‚¹ä½¿ç”¨é€»è¾‘ä¸èŠ‚ç‚¹ï¼‰</param>
         public ChanceModifier(float factor, LogicalAndNode logicTree)
         {
             Factor = factor;
@@ -39,60 +46,56 @@ namespace LogicTree
         }
 
         /// <summary>
-        /// ´ÓJSON¶ÔÏó³õÊ¼»¯ĞŞÕıÆ÷
+        /// ä»JSONå¯¹è±¡åˆå§‹åŒ–ä¿®æ­£å™¨
         /// </summary>
-        /// <param name="json">°üº¬factorºÍÌõ¼şÊ÷µÄJObject</param>
+        /// <param name="json">åŒ…å«factorå’Œæ¡ä»¶æ ‘çš„JObject</param>
         public ChanceModifier(JObject json)
         {
             FromJson(json);
         }
 
         /// <summary>
-        /// ´ÓJSON×Ö·û´®³õÊ¼»¯ĞŞÕıÆ÷
+        /// ä»JSONå­—ç¬¦ä¸²åˆå§‹åŒ–ä¿®æ­£å™¨
         /// </summary>
-        /// <param name="jsonString">·ûºÏĞŞÕıÆ÷¸ñÊ½µÄJSON×Ö·û´®</param>
-        public ChanceModifier(string jsonString)
+        /// <param name="jsonString">ç¬¦åˆä¿®æ­£å™¨æ ¼å¼çš„JSONå­—ç¬¦ä¸²</param>
+
+        /// <summary>
+        /// è¯„ä¼°æ¡ä»¶æ˜¯å¦æ»¡è¶³
+        /// </summary>
+        /// <param name="context">è¿è¡Œæ—¶ä¸Šä¸‹æ–‡æ•°æ®</param>
+        /// <returns>å½“æ‰€æœ‰å­èŠ‚ç‚¹æ¡ä»¶æ»¡è¶³æ—¶è¿”å›true</returns>
+        public bool Evaluate(Dictionary<string, object> context)
         {
-            FromJson(JObject.Parse(jsonString));
+            return LogicTree.Evaluate(context); 
         }
 
         /// <summary>
-        /// ÆÀ¹ÀÌõ¼şÊÇ·ñÂú×ã
+        /// åºåˆ—åŒ–ä¸ºJSONæ ¼å¼
         /// </summary>
-        /// <param name="context">ÔËĞĞÊ±ÉÏÏÂÎÄÊı¾İ</param>
-        /// <returns>µ±ËùÓĞ×Ó½ÚµãÌõ¼şÂú×ãÊ±·µ»Øtrue</returns>
-        public bool Evaluate(System.Collections.Generic.Dictionary<string, object> context)
-        {
-            return LogicTree.Evaluate(context);     // Î¯ÍĞ¸øÂß¼­Óë½ÚµãÆÀ¹À
-        }
-
-        /// <summary>
-        /// ĞòÁĞ»¯ÎªJSON¸ñÊ½
-        /// </summary>
-        /// <returns>°üº¬ĞŞÕıÒò×ÓºÍÌõ¼şÊ÷µÄJObject</returns>
+        /// <returns>åŒ…å«ä¿®æ­£å› å­å’Œæ¡ä»¶æ ‘çš„JObject</returns>
         public JToken ToJson()
         {
             var json = new JObject();
-            bool hasRepeat = false;     // ±ê¼ÇÊÇ·ñÓĞÖØ¸´µÄ¼ü
+            bool hasRepeat = false;     // æ ‡è®°æ˜¯å¦æœ‰é‡å¤çš„é”®
 
             foreach (var child in LogicTree)
             {
                 var token = child.ToJson();
 
-                // Óöµ½ÏàÍ¬µÄ¼üÍ£Ö¹Æ½ÆÌ
+                //  é‡åˆ°ç›¸åŒçš„é”®åœæ­¢å¹³é“º
                 if (json.ContainsKey(token.Name))
                 {
                     hasRepeat = true;
                     break;
                 }
 
-                json.Add(token);  // µİ¹éĞòÁĞ»¯×Ó½Úµã£¨Æ½ÆÌ£©
+                json.Add(token);   // é€’å½’åºåˆ—åŒ–å­èŠ‚ç‚¹ï¼ˆå¹³é“ºï¼‰
             }
 
             if (hasRepeat)
             {
-                json.RemoveAll(); // Çå¿Õjson
-                json.Add(LogicTree.ToJson()); // µİ¹éĞòÁĞ»¯×Ó½Úµã£¨°ü×°£©
+                json.RemoveAll(); //  æ¸…ç©ºjson
+                json.Add(LogicTree.ToJson()); // é€’å½’åºåˆ—åŒ–å­èŠ‚ç‚¹ï¼ˆåŒ…è£…ï¼‰
             }
 
             json.AddFirst(new JProperty("factor", Factor));
@@ -100,10 +103,10 @@ namespace LogicTree
         }
 
         /// <summary>
-        /// ĞòÁĞ»¯ÎªJSON×Ö·û´®
+        /// åºåˆ—åŒ–ä¸ºJSONå­—ç¬¦ä¸²
         /// </summary>
-        /// <returns>°üº¬ĞŞÕıÒò×ÓºÍÌõ¼şÊ÷µÄJSON×Ö·û´®</returns>
-        /// <exception cref="ConditionNodeSerializationException">ĞòÁĞ»¯Ê§°ÜÊ±Å×³ö</exception>
+        /// <returns>åŒ…å«ä¿®æ­£å› å­å’Œæ¡ä»¶æ ‘çš„JSONå­—ç¬¦ä¸²</returns>
+        /// <exception cref="ConditionNodeSerializationException">åºåˆ—åŒ–å¤±è´¥æ—¶æŠ›å‡º</exception>
         public string ToJsonString()
         {
             try
@@ -117,22 +120,21 @@ namespace LogicTree
         }
 
         /// <summary>
-        /// ´ÓJSON´´½¨ĞŞÕıÆ÷ÊµÀı
+        /// ä»JSONåˆ›å»ºä¿®æ­£å™¨å®ä¾‹
         /// </summary>
-        /// <param name="obj">°üº¬factorºÍÌõ¼şÊ÷µÄJObject</param>
-        /// <returns>ĞÂ´´½¨µÄChanceModifierÊµÀı</returns>
+        /// <param name="obj">åŒ…å«factorå’Œæ¡ä»¶æ ‘çš„JObject</param>
+        /// <returns>æ–°åˆ›å»ºçš„ChanceModifierå®ä¾‹</returns>
         public static ChanceModifier FromJson(JObject obj)
         {
-            // GD.Print("Parsing modifier:"+obj);
             var modifier = new ChanceModifier();
             if (obj.TryGetValue("factor", out var factor))
                 modifier.Factor = (float)factor;
 
             var conditions = new List<ConditionNode>();
-            obj.Remove("factor"); // ÒÆ³ıfactorÊôĞÔ£¬Ö»±£ÁôÌõ¼şÊ÷
+            obj.Remove("factor"); // ç§»é™¤factorå±æ€§ï¼Œåªä¿ç•™æ¡ä»¶æ ‘
             foreach (var prop in obj.Properties())
             {
-                // Ê¹ÓÃ·´ĞòÁĞ»¯¹¤¾ß½âÎöÃ¿¸öÌõ¼şÊôĞÔ
+                // ä½¿ç”¨ååºåˆ—åŒ–å·¥å…·è§£ææ¯ä¸ªæ¡ä»¶å±æ€§
                 var node = ConditionNodeDeserializer.DeserializeNode(prop.Name, prop);
                 conditions.Add(node);
             }
@@ -141,10 +143,11 @@ namespace LogicTree
         }
 
         /// <summary>
-        /// ´ÓJSON×Ö·û´®´´½¨ĞŞÕıÆ÷ÊµÀı
+        /// ä»JSONå­—ç¬¦ä¸²åˆ›å»ºä¿®æ­£å™¨å®ä¾‹
         /// </summary>
-        /// <param name="jsonString">°üº¬factorºÍÌõ¼şÊ÷µÄJson×Ö·û´®</param>
-        /// <returns>ĞÂ´´½¨µÄChanceModifierÊµÀı</returns>
+        /// <param name="jsonString">åŒ…å«factorå’Œæ¡ä»¶æ ‘çš„Jsonå­—ç¬¦ä¸²</param>
+        /// <returns>æ–°åˆ›å»ºçš„ChanceModifierå®ä¾‹</returns>
+        /// <exception cref="ConditionNodeSerializationException">ååºåˆ—åŒ–è¿‡ç¨‹ä¸­å‘ç”Ÿé”™è¯¯æ—¶æŠ›å‡º</exception>
         public static ChanceModifier FromJson(string jsonString)
         {
             try

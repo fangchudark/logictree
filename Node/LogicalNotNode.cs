@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace LogicTree
@@ -54,7 +56,6 @@ namespace LogicTree
         /// </summary>
         /// <param name="value">包含"not"属性的JToken</param>
         /// <returns>包含所有子条件的LogicalNotNode实例</returns>
-        /// <exception cref="ArgumentException">当JSON结构无效时抛出</exception>
         [NodeDeserializer("not")]
         public static LogicalNotNode FromJson(JToken value)
         {            

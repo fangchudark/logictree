@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace LogicTree
@@ -17,7 +19,9 @@ namespace LogicTree
         /// <summary>
         /// 条件枚举项
         /// </summary> 
+#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑添加 "required" 修饰符或声明为可为 null。
         public string ConditionName { get; set; }
+#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑添加 "required" 修饰符或声明为可为 null。
         /// <summary>
         /// 条件值
         /// </summary>
@@ -44,10 +48,12 @@ namespace LogicTree
         /// <returns>格式示例：{"key": {"player_level": 5}}</returns>
         protected virtual JProperty ToJPropertyWithKey(string key, string conditionName, TValue value)
         {
+#pragma warning disable CS8604 // 引用类型参数可能为 null。
             var obj = new JObject
             {
                 [conditionName.ToSnakeCase()] = JToken.FromObject(value)    // 蛇形命名键值对
             };
+#pragma warning restore CS8604 // 引用类型参数可能为 null。
 
             return new JProperty(key, obj);   // 包装为指定类型的属性
         }
