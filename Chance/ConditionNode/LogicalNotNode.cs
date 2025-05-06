@@ -80,7 +80,7 @@ public partial class LogicalNotNode : ContainerConditionNode, IConditionNodeDese
     /// <returns>当所有子条件返回false时返回true</returns>
     public override bool Evaluate(Dictionary<string, object> context)
     {
-        return !Children.All(node => node.Evaluate(context)); // 取反逻辑判断
+        return Children.All(node => !node.Evaluate(context)); // 取反逻辑判断
     }
 
     /// <summary>
