@@ -24,6 +24,10 @@
 
 - 移除了所有除容器节点外的所有节点的无参构造函数
 
+- 现在[ContainerConditionNode类](/Node/ContainerConditionNode.cs)实现了`Enumerable`, `IEnumerable<ConditionNode>`, `IList<ConditionNode>`, `ICollection<ConditionNode>`接口和索引器
+
+- [ContainerConditionNode类](/Node/ContainerConditionNode.cs)`Children`属性不再是`public`, 而是`protected`
+
 - 所有具体叶子节点类都新增了`string, TValue`，`Enum, TValue`类型的构造函数
 
 - 原Godot的拓展方法（[ToPascalCase()](/Extensions/Extensions.cs/#L19), [ToSnakeCase()](/Extensions/Extensions.cs/#L82),[Mathf.IsEqualApprox(bool, bool)](/Extensions/Extensions.cs/#L138)）都已原生使用C#进行了实现
